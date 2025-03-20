@@ -106,7 +106,7 @@ ax.quiver(*internal_nodes.T, *internal_field.T, color='#1b9e77', scale=0.4, scal
 ax.set_xticks([])
 ax.set_yticks([])
 ax.set_frame_on(False)
-fig.savefig("../docs/logo.png", dpi=300)
+fig.savefig("../docs/logo.png", dpi=300, bbox_inches='tight', pad_inches=0)
 
 # %%
 
