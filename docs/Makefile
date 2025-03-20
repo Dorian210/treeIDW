@@ -39,7 +39,9 @@ pdf:
 	python3 -m http.server 8000 & echo $$! > $(SERVER_PID_FILE); \
 	sleep 2; \
 	echo "Searching for HTML pages..."; \
-	PAGES=$$(find . -name "*.html" | grep -v "index.html" | sed "s|^\./||" | sed "s|^|http://localhost:8000/|" | tac); \
+	PAGES=$$(find . -type d -print | sort | while read dir; do \
+		find "$$dir" -maxdepth 1 -name "*.html" -not -name "index.html" | \
+		sed "s|^\./|http://localhost:8000/|"; done); \
 	echo "Found pages: $$PAGES"; \
 	echo "Converting HTML pages to PDF..."; \
 	wkhtmltopdf $$PAGES $(OUTPUT_PDF); \
