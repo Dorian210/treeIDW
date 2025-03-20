@@ -61,6 +61,10 @@ treeIDW    </h1>
 
                         <div class="docstring"><h1 id="treeidw">treeIDW</h1>
 
+<p align="center">
+  <img src="https://dorian210.github.io/treeIDW/logo.png" width="500" />
+</p>
+
 <p><strong>treeIDW</strong> is a Python library designed for performing Inverse Distance Weighting (IDW) interpolation with an efficient KD-tree approach. It offers a user-friendly interface for newcomers while providing advanced features and optimizations that will appeal to experts in numerical methods and spatial data analysis.</p>
 
 <h2 id="introduction">Introduction</h2>
@@ -103,12 +107,12 @@ Defines the specific IDW weight calculation function. By default, this function 
 
 <h2 id="examples">Examples</h2>
 
-<p>Several example scripts demonstrating the usage of <strong>treeIDW</strong> are available in the <code>examples/</code> directory. These examples cover topics such as:</p>
+<p>Several example scripts demonstrating the usage of <strong>treeIDW</strong> are available in the <code>examples/</code> directory. These include:</p>
 
 <ul>
-<li>Basic IDW interpolation</li>
-<li>Utilizing parallel processing for enhanced performance</li>
-<li>Fine-tuning weight thresholds to ignore less influential nodes</li>
+<li><strong>Graphical Demonstration:</strong> A visualization of a square domain with a rotating vector field. The field is propagated to multiple internal points and plotted for intuitive understanding.</li>
+<li><strong>Large-Scale Computation:</strong> A more computationally intensive example where a scalar field is propagated from 1,000 boundary nodes to 1,000,000 internal nodes, showcasing the efficiency of the KD-tree selection.</li>
+<li><strong>Logo Generation:</strong> A unique example illustrating the process of creating the treeIDW logo. The logo consists of the letters "IDW" represented as a vector field, which is then propagated onto a 2D meshgrid to generate the final design.</li>
 </ul>
 
 <h2 id="documentation">Documentation</h2>
