@@ -74,7 +74,7 @@ def plot_arrows(spline, ctrl_pts, fact, ax, loop=False):
 
 fig, ax = plt.subplots()
 ax.set_aspect(1)
-fact = 0.25
+fact = 0.28
 
 svg_code_I = "M 74.9323 99.5629 L 74.9323 113.962"
 ctrl_pts_I, spline_I = bspline_from_svg_code(svg_code_I)
