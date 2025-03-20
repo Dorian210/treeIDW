@@ -7,23 +7,31 @@ DOC_DIR = .
 # Path to the logo file
 LOGO = logo.png
 
-# URL of the logo on GitHub
-LOGO_URL = https://dorian210.github.io/treeIDW/logo.png
-
 # Output PDF filename
 OUTPUT_PDF = doc.pdf
 
 # File to store the HTTP server process ID
 SERVER_PID_FILE = server.pid
 
-.PHONY: all clean doc
+.PHONY: all clean html pdf
 
 # Default command: generates both HTML and PDF documentation
-all: doc pdf
+all: html pdf
 
-# Generate documentation using pdoc
-doc:
-	pdoc -o $(DOC_DIR) -d numpy --logo $(LOGO_URL) --favicon $(LOGO_URL) $(PACKAGE)
+# Generate documentation using pdoc and correct the logo path
+html:
+	pdoc -o $(DOC_DIR) -d numpy --logo $(LOGO) --favicon $(LOGO) $(PACKAGE)
+	find . -type f -name "*.html" | while read file; do \
+	    depth=$$(dirname "$$file" | awk -F'/' '{print NF}'); \
+	    if [ $$depth -eq 1 ]; then \
+	        dir_name=$${PWD##*/}; \
+	        sed -i "s|$$dir_name/$(LOGO)|$(LOGO)|g" "$$file"; \
+	        sed -i "s|$(LOGO)|$(LOGO)|g" "$$file"; \
+	    else \
+	        rel_path=$$(printf '../%.0s' $$(seq $$((depth - 1))))$(LOGO); \
+	        sed -i "s|$(LOGO)|$$rel_path|g" "$$file"; \
+	    fi; \
+	done
 
 # Generate a PDF documentation from HTML
 pdf:

@@ -1,7 +1,7 @@
 # treeIDW
 
 <p align="center">
-  <img src="https://dorian210.github.io/treeIDW/logo.png" width="500" />
+  <img src=docs/logo.png width="500" />
 </p>
 
 **treeIDW** is a Python library designed for performing Inverse Distance Weighting (IDW) interpolation with an efficient KD-tree approach. It offers a user-friendly interface for newcomers while providing advanced features and optimizations that will appeal to experts in numerical methods and spatial data analysis.
