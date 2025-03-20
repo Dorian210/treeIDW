@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import re
 from treeIDW import treeIDW
+# uses the bsplyne library from https://github.com/Dorian210/bsplyne
 from bsplyne import BSpline
 
 def parse_svg_bezier(path_str: str) -> np.ndarray:
