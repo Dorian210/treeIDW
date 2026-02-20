@@ -4,17 +4,30 @@
   <img src="https://raw.githubusercontent.com/Dorian210/treeIDW/main/docs/logo.png" width="500" />
 </p>
 
-**treeIDW** is a Python library designed for performing Inverse Distance Weighting (IDW) interpolation with an efficient KD-tree approach. It offers a user-friendly interface for newcomers while providing advanced features and optimizations that will appeal to experts in numerical methods and spatial data analysis.
+**treeIDW** is a Python library for performing **Inverse Distance Weighting (IDW)** interpolation using an efficient **KD-tree-based selection strategy**.  
+It is designed to be easy to use for newcomers while offering fine-grained control and performance-oriented options for advanced users in numerical methods and spatial data analysis.
 
-## Introduction
+---
 
-Imagine you have data known at certain points (boundary nodes) and you need to estimate values at other points (internal nodes). **treeIDW** simplifies this task by automatically selecting the most relevant boundary nodes using a KD-tree, ensuring that only nodes with significant contributions are considered. This not only makes the interpolation more accurate but also speeds up the computation considerably. Whether you're a researcher, engineer, or someone exploring spatial data, **treeIDW** offers a robust solution that adapts to your level of expertise.
+## Key Features
 
-For non-experts, the library hides complex mathematical operations behind a simple interface, while experts will appreciate the fine-tuned control over parameters such as weight thresholds, bisection tolerances, and parallel processing options.
+- Efficient IDW interpolation using KD-tree nearest-neighbor selection
+- Automatic exclusion of boundary nodes with negligible contribution
+- Optimized numerical kernels powered by `numba`
+- Scalable to large datasets (millions of interpolation points)
+- Simple API with expert-level tunable parameters
+
+---
 
 ## Installation
 
-Since **treeIDW** is not yet available on PyPI, you can install it locally as follows:
+**treeIDW is available on PyPI.**
+
+```bash
+pip install treeIDW
+```
+
+### Development installation (from source)
 
 ```bash
 git clone https://github.com/Dorian210/treeIDW
@@ -22,42 +35,66 @@ cd treeIDW
 pip install -e .
 ```
 
-### Dependencies
+---
 
-Ensure that you have the following dependencies installed:
+## Dependencies
+
+The core dependencies are:
 
 - `numpy`
-- `numba`
 - `scipy`
+- `numba`
 
-## Main Modules
+These are automatically installed when using `pip`.
+
+---
+
+## Package Structure
 
 - **treeIDW.treeIDW**  
-  Implements the core IDW interpolation method using a KD-tree to select the most relevant boundary nodes. This module efficiently ignores nodes with negligible impact, improving both accuracy and performance.
+  Core IDW interpolation engine.  
+  Uses a KD-tree to select only boundary nodes with significant influence, improving both accuracy and performance.
 
 - **treeIDW.helper_functions**  
-  Contains optimized functions (leveraging `numba`) for computing IDW weights. These include both vectorized and parallelized implementations, which are ideal for handling large datasets.
+  Low-level, performance-critical routines for IDW weight computation.  
+  Implemented with `numba`, including vectorized and parallelized variants.
 
 - **treeIDW.weight_function**  
-  Defines the specific IDW weight calculation function. By default, this function computes the weight as the inverse of the squared distance, but it can be adapted to suit specific needs.
+  Definition of the IDW weight function.  
+  The default implementation uses inverse squared distance, but custom weight laws can be implemented if needed.
+
+---
 
 ## Examples
 
-Several example scripts demonstrating the usage of **treeIDW** are available in the `examples/` directory. These include:
+Example scripts are provided in the `examples/` directory:
 
-- **Graphical Demonstration:** A visualization of a square domain with a rotating vector field. The field is propagated to multiple internal points and plotted for intuitive understanding.
-- **Large-Scale Computation:** A more computationally intensive example where a scalar field is propagated from 1,000 boundary nodes to 1,000,000 internal nodes, showcasing the efficiency of the KD-tree selection.
-- **Logo Generation:** A unique example illustrating the process of creating the treeIDW logo. The logo consists of the letters "IDW" represented as a vector field, which is then propagated onto a 2D meshgrid to generate the final design.
+- **Graphical demonstration**  
+  Interpolation of a rotating vector field inside a square domain.
+
+- **Large-scale computation**  
+  Propagation of a scalar field from 1,000 boundary nodes to 1,000,000 internal points, highlighting scalability.
+
+- **Logo generation**  
+  The generation process of the *treeIDW* logo itself, where the letters “IDW” are encoded as a vector field and interpolated on a 2D grid.
+
+---
 
 ## Documentation
 
-Complete API documentation is available in the `docs/` directory of the project or through the [online documentation portal](https://dorian210.github.io/treeIDW/).
+- Online documentation: https://dorian210.github.io/treeIDW/
+- API reference is also available in the `docs/` directory of the repository.
+
+---
 
 ## Contributions
 
-Currently, I am not actively reviewing contributions. However, if you encounter any issues or have suggestions, please feel free to open an issue on the repository.
+This project is currently not open to active development contributions.  
+However, bug reports and suggestions are welcome via the issue tracker.
+
+---
 
 ## License
 
-This project is licensed under the [CeCILL License](LICENSE.txt).
-
+This project is distributed under the **CeCILL License**.  
+See [LICENSE.txt](LICENSE.txt) for details.

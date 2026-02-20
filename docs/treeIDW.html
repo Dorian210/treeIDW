@@ -27,9 +27,10 @@
             <ul>
   <li><a href="#treeidw">treeIDW</a>
   <ul>
-    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#key-features">Key Features</a></li>
     <li><a href="#installation">Installation</a></li>
-    <li><a href="#main-modules">Main Modules</a></li>
+    <li><a href="#dependencies">Dependencies</a></li>
+    <li><a href="#package-structure">Package Structure</a></li>
     <li><a href="#examples">Examples</a></li>
     <li><a href="#documentation">Documentation</a></li>
     <li><a href="#contributions">Contributions</a></li>
@@ -65,17 +66,33 @@ treeIDW    </h1>
   <img src="logo.png" width="500" />
 </p>
 
-<p><strong>treeIDW</strong> is a Python library designed for performing Inverse Distance Weighting (IDW) interpolation with an efficient KD-tree approach. It offers a user-friendly interface for newcomers while providing advanced features and optimizations that will appeal to experts in numerical methods and spatial data analysis.</p>
+<p><strong>treeIDW</strong> is a Python library for performing <strong>Inverse Distance Weighting (IDW)</strong> interpolation using an efficient <strong>KD-tree-based selection strategy</strong>.<br />
+It is designed to be easy to use for newcomers while offering fine-grained control and performance-oriented options for advanced users in numerical methods and spatial data analysis.</p>
 
-<h2 id="introduction">Introduction</h2>
+<hr />
 
-<p>Imagine you have data known at certain points (boundary nodes) and you need to estimate values at other points (internal nodes). <strong>treeIDW</strong> simplifies this task by automatically selecting the most relevant boundary nodes using a KD-tree, ensuring that only nodes with significant contributions are considered. This not only makes the interpolation more accurate but also speeds up the computation considerably. Whether you're a researcher, engineer, or someone exploring spatial data, <strong>treeIDW</strong> offers a robust solution that adapts to your level of expertise.</p>
+<h2 id="key-features">Key Features</h2>
 
-<p>For non-experts, the library hides complex mathematical operations behind a simple interface, while experts will appreciate the fine-tuned control over parameters such as weight thresholds, bisection tolerances, and parallel processing options.</p>
+<ul>
+<li>Efficient IDW interpolation using KD-tree nearest-neighbor selection</li>
+<li>Automatic exclusion of boundary nodes with negligible contribution</li>
+<li>Optimized numerical kernels powered by <code>numba</code></li>
+<li>Scalable to large datasets (millions of interpolation points)</li>
+<li>Simple API with expert-level tunable parameters</li>
+</ul>
+
+<hr />
 
 <h2 id="installation">Installation</h2>
 
-<p>Since <strong>treeIDW</strong> is not yet available on PyPI, you can install it locally as follows:</p>
+<p><strong>treeIDW is available on PyPI.</strong></p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>treeIDW
+</code></pre>
+</div>
+
+<h3 id="development-installation-from-source">Development installation (from source)</h3>
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Dorian210/treeIDW
@@ -84,48 +101,73 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 </code></pre>
 </div>
 
-<h3 id="dependencies">Dependencies</h3>
+<hr />
 
-<p>Ensure that you have the following dependencies installed:</p>
+<h2 id="dependencies">Dependencies</h2>
+
+<p>The core dependencies are:</p>
 
 <ul>
 <li><code>numpy</code></li>
-<li><code>numba</code></li>
 <li><code>scipy</code></li>
+<li><code>numba</code></li>
 </ul>
 
-<h2 id="main-modules">Main Modules</h2>
+<p>These are automatically installed when using <code>pip</code>.</p>
+
+<hr />
+
+<h2 id="package-structure">Package Structure</h2>
 
 <ul>
 <li><p><strong><a href="treeIDW/treeIDW.html">treeIDW.treeIDW</a></strong><br />
-Implements the core IDW interpolation method using a KD-tree to select the most relevant boundary nodes. This module efficiently ignores nodes with negligible impact, improving both accuracy and performance.</p></li>
+Core IDW interpolation engine.<br />
+Uses a KD-tree to select only boundary nodes with significant influence, improving both accuracy and performance.</p></li>
 <li><p><strong><a href="treeIDW/helper_functions.html">treeIDW.helper_functions</a></strong><br />
-Contains optimized functions (leveraging <code>numba</code>) for computing IDW weights. These include both vectorized and parallelized implementations, which are ideal for handling large datasets.</p></li>
+Low-level, performance-critical routines for IDW weight computation.<br />
+Implemented with <code>numba</code>, including vectorized and parallelized variants.</p></li>
 <li><p><strong><a href="treeIDW/weight_function.html">treeIDW.weight_function</a></strong><br />
-Defines the specific IDW weight calculation function. By default, this function computes the weight as the inverse of the squared distance, but it can be adapted to suit specific needs.</p></li>
+Definition of the IDW weight function.<br />
+The default implementation uses inverse squared distance, but custom weight laws can be implemented if needed.</p></li>
 </ul>
+
+<hr />
 
 <h2 id="examples">Examples</h2>
 
-<p>Several example scripts demonstrating the usage of <strong>treeIDW</strong> are available in the <code>examples/</code> directory. These include:</p>
+<p>Example scripts are provided in the <code>examples/</code> directory:</p>
 
 <ul>
-<li><strong>Graphical Demonstration:</strong> A visualization of a square domain with a rotating vector field. The field is propagated to multiple internal points and plotted for intuitive understanding.</li>
-<li><strong>Large-Scale Computation:</strong> A more computationally intensive example where a scalar field is propagated from 1,000 boundary nodes to 1,000,000 internal nodes, showcasing the efficiency of the KD-tree selection.</li>
-<li><strong>Logo Generation:</strong> A unique example illustrating the process of creating the treeIDW logo. The logo consists of the letters "IDW" represented as a vector field, which is then propagated onto a 2D meshgrid to generate the final design.</li>
+<li><p><strong>Graphical demonstration</strong><br />
+Interpolation of a rotating vector field inside a square domain.</p></li>
+<li><p><strong>Large-scale computation</strong><br />
+Propagation of a scalar field from 1,000 boundary nodes to 1,000,000 internal points, highlighting scalability.</p></li>
+<li><p><strong>Logo generation</strong><br />
+The generation process of the <em>treeIDW</em> logo itself, where the letters “IDW” are encoded as a vector field and interpolated on a 2D grid.</p></li>
 </ul>
+
+<hr />
 
 <h2 id="documentation">Documentation</h2>
 
-<p>Complete API documentation is available in the <code>docs/</code> directory of the project or through the <a href="https://dorian210.github.io/treeIDW/">online documentation portal</a>.</p>
+<ul>
+<li>Online documentation: <a href="https://dorian210.github.io/treeIDW/">https://dorian210.github.io/treeIDW/</a></li>
+<li>API reference is also available in the <code>docs/</code> directory of the repository.</li>
+</ul>
+
+<hr />
 
 <h2 id="contributions">Contributions</h2>
 
-<p>Currently, I am not actively reviewing contributions. However, if you encounter any issues or have suggestions, please feel free to open an issue on the repository.</p>
+<p>This project is currently not open to active development contributions.<br />
+However, bug reports and suggestions are welcome via the issue tracker.</p>
+
+<hr />
 
 <h2 id="license">License</h2>
 
-<p>This project is licensed under the <a href="LICENSE.txt">CeCILL License</a>.</p>
+<p>This project is distributed under the <strong>CeCILL License</strong>.<br />
+See <a href="LICENSE.txt">LICENSE.txt</a> for details.</p>
 </div>
 
                         <input id="mod-treeIDW-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
