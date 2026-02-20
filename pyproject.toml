@@ -26,11 +26,12 @@ classifiers = [
     "Programming Language :: Python :: 3 :: Only",
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering",
-    "Intended Audience :: Science/Research"
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: CeCILL-2.1"
 ]
 
 [project.urls]
-Homepage = "https://github.com/Dorian210/treeIDW"
+Home-page = "https://github.com/Dorian210/treeIDW"
 Repository = "https://github.com/Dorian210/treeIDW"
 Issues = "https://github.com/Dorian210/treeIDW/issues"
 
