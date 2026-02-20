@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "treeIDW"
+version = "1.0.0"
+description = "A package for KD-tree optimized inverse distance weighting interpolation."
+readme = "README.md"
+requires-python = ">=3.9"
+
+authors = [
+    { name = "Dorian Bichet", email = "dbichet@insa-toulouse.fr" }
+]
+
+license = "CECILL-2.1"
+
+dependencies = [
+    "numpy>=1.20",
+    "numba>=0.55",
+    "scipy>=1.8"
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering",
+    "Intended Audience :: Science/Research"
+]
+
+[project.urls]
+Homepage = "https://github.com/Dorian210/treeIDW"
+Repository = "https://github.com/Dorian210/treeIDW"
+Issues = "https://github.com/Dorian210/treeIDW/issues"
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "twine",
+    "pytest"
+]
+docs = [
+    "wkhtmltopdf",
+    "pdoc>=12.0"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,18 @@
+MODULE: treeIDW.weight_function
+===============================
+Documentation for module treeIDW.weight_function
+
+GLOBAL FUNCTIONS:
+~~~~~~~~~~~~~~~~~~
+  >>> compute_weight(dist_squared: float) -> float
+      Compute the IDW weight. Can be changed but is usually `1/dist_squared`.
+      
+      Parameters
+      ----------
+      dist_squared : float
+          Squared distance between the interior node and the boundary node.
+      
+      Returns
+      -------
+      weight : float
+          IDW weight.

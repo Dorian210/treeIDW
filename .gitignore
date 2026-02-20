@@ -1,4 +1,37 @@
-.qodo
-treeIDW.egg-info
-build
-__pycache__
+# Python
+__pycache__/
+*.py[cod]
+
+# Numba
+*.nbc
+*.nbi
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+
+# Pytest
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+.env/
+tmp/
+
+# IDE
+.vscode/
+.idea/
+
+# Generated files (examples)
+*.vtu
+*.pvd
+*.pkl
+*.npy
+
+# OS
+.DS_Store
+
+# Personnal
+context.txt

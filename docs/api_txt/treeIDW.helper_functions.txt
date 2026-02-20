@@ -1,0 +1,97 @@
+MODULE: treeIDW.helper_functions
+================================
+Documentation for module treeIDW.helper_functions
+
+GLOBAL FUNCTIONS:
+~~~~~~~~~~~~~~~~~~
+  >>> inv_dist_weight(
+    boundary_nodes: numpy.ndarray[numpy.floating],
+    boundary_field: numpy.ndarray[numpy.floating],
+    internal_nodes: numpy.ndarray[numpy.floating],
+    relevant_nodes_inds_flat: numpy.ndarray[numpy.integer],
+    relevant_nodes_inds_sizes: numpy.ndarray[numpy.integer]
+) -> numpy.ndarray[numpy.floating]
+      Performs the Inverse Distance Weighting interpolation method using only provided boundary nodes
+      indices in the weighted sum. This function is designed to be used after selecting the relevant nodes
+      through a KD-tree method.
+      
+      Parameters
+      ----------
+      boundary_nodes : np.ndarray[np.floating]
+          Boundary nodes where the data is known.
+          Must be of shape (`n_interp`, `space_dim`).
+      boundary_field : np.ndarray[np.floating]
+          Known data.
+          Must be of shape (`n_interp`, `field_dim`).
+      internal_nodes : np.ndarray[np.floating]
+          Internal nodes where the interpolator is evaluated.
+          Must be of shape (`n_eval`, `space_dim`).
+      relevant_nodes_inds_flat : np.ndarray[np.integer]
+          Boundary nodes indices that weight in the IDW interpolator for each internal node.
+          Must contain `n_eval` concatenated lists of indices between 0 and `n_interp` excluded.
+      relevant_nodes_inds_sizes : np.ndarray[np.integer]
+          Sizes of each of the `n_eval` lists concatenated in `relevant_nodes_inds_flat`.
+      
+      Returns
+      -------
+      internal_field : np.ndarray[np.floating]
+          Interpolated data.
+          Should be of shape (`n_eval`, `field_dim`).
+
+  >>> inv_dist_weight_parallel(
+    boundary_nodes: numpy.ndarray[numpy.floating],
+    boundary_field: numpy.ndarray[numpy.floating],
+    internal_nodes: numpy.ndarray[numpy.floating],
+    relevant_nodes_inds_flat: numpy.ndarray[numpy.integer],
+    relevant_nodes_inds_sizes: numpy.ndarray[numpy.integer]
+) -> numpy.ndarray[numpy.floating]
+      Performs the Inverse Distance Weighting interpolation method using only provided boundary nodes
+      indices in the weighted sum. This function is designed to be used after selecting the relevant nodes
+      through a KD-tree method.
+      
+      Parameters
+      ----------
+      boundary_nodes : np.ndarray[np.floating]
+          Boundary nodes where the data is known.
+          Must be of shape (`n_interp`, `space_dim`).
+      boundary_field : np.ndarray[np.floating]
+          Known data.
+          Must be of shape (`n_interp`, `field_dim`).
+      internal_nodes : np.ndarray[np.floating]
+          Internal nodes where the interpolator is evaluated.
+          Must be of shape (`n_eval`, `space_dim`).
+      relevant_nodes_inds_flat : np.ndarray[np.integer]
+          Boundary nodes indices that weight in the IDW interpolator for each internal node.
+          Must contain `n_eval` concatenated lists of indices between 0 and `n_interp` excluded.
+      relevant_nodes_inds_sizes : np.ndarray[np.integer]
+          Sizes of each of the `n_eval` lists concatenated in `relevant_nodes_inds_flat`.
+      
+      Returns
+      -------
+      internal_field : np.ndarray[np.floating]
+          Interpolated data.
+          Should be of shape (`n_eval`, `field_dim`).
+
+  >>> bisect_weight_elem(
+    dist_squared_a: float,
+    dist_squared_b: float,
+    weight_treshold: float,
+    rtol: float
+) -> float
+      Compute the squared distance that correspond to a specific weight threshold using a bisection approach.
+      
+      Parameters
+      ----------
+      dist_squared_a : float
+          Left boundary of the interval containning the looked for weight treshold preimage.
+      dist_squared_b : float
+          Right boundary of the interval containning the looked for weight treshold preimage.
+      weight_treshold : float
+          Image of the looked for squared distance by the weight function of the IDW algorithm.
+      rtol : float, optional
+          The relative tolerance is used to compute the necessary number of bisection iterations, by default 1e-3
+      
+      Returns
+      -------
+      dist_squared_c : float
+          Weight treshold preimage found through bisection.

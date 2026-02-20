@@ -1,0 +1,3 @@
+MODULE: treeIDW
+===============
+.. include:: ../../README.md

@@ -1,0 +1,64 @@
+================================================================
+FULL API DOCUMENTATION: TREEIDW
+================================================================
+
+
+
+MODULE: treeIDW
+===============
+.. include:: ../../README.md
+
+################################################################
+MODULE: treeIDW.helper_functions
+================================
+Documentation for module treeIDW.helper_functions
+
+GLOBAL FUNCTIONS:
+~~~~~~~~~~~~~~~~~~
+  >>> inv_dist_weight(
+    boundary_nodes: numpy.ndarray[numpy.floating],
+    boundary_field: numpy.ndarray[numpy.floating],
+    internal_nodes: numpy.ndarray[numpy.floating],
+    relevant_nodes_inds_flat: numpy.ndarray[numpy.integer],
+    relevant_nodes_inds_sizes: numpy.ndarray[numpy.integer]
+) -> numpy.ndarray[numpy.floating]
+
+  >>> inv_dist_weight_parallel(
+    boundary_nodes: numpy.ndarray[numpy.floating],
+    boundary_field: numpy.ndarray[numpy.floating],
+    internal_nodes: numpy.ndarray[numpy.floating],
+    relevant_nodes_inds_flat: numpy.ndarray[numpy.integer],
+    relevant_nodes_inds_sizes: numpy.ndarray[numpy.integer]
+) -> numpy.ndarray[numpy.floating]
+
+  >>> bisect_weight_elem(
+    dist_squared_a: float,
+    dist_squared_b: float,
+    weight_treshold: float,
+    rtol: float
+) -> float
+
+################################################################
+MODULE: treeIDW.treeIDW
+=======================
+Documentation for module treeIDW.treeIDW
+
+GLOBAL FUNCTIONS:
+~~~~~~~~~~~~~~~~~~
+  >>> treeIDW(
+    boundary_nodes: numpy.ndarray[numpy.floating],
+    boundary_field: numpy.ndarray[numpy.floating],
+    internal_nodes: numpy.ndarray[numpy.floating],
+    neglectible_treshold: float = 0.2,
+    bisect_rtol: float = 0.001,
+    parallel: bool = False
+) -> numpy.ndarray[numpy.floating]
+
+################################################################
+MODULE: treeIDW.weight_function
+===============================
+Documentation for module treeIDW.weight_function
+
+GLOBAL FUNCTIONS:
+~~~~~~~~~~~~~~~~~~
+  >>> compute_weight(dist_squared: float) -> float

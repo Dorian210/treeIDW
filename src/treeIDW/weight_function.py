@@ -1,6 +1,5 @@
-import numpy as np
-import numpy.typing as npt
 import numba as nb
+
 
 @nb.njit(cache=True)
 def compute_weight(dist_squared: float) -> float:
@@ -17,5 +16,5 @@ def compute_weight(dist_squared: float) -> float:
     weight : float
         IDW weight.
     """
-    weight = 1/dist_squared
+    weight = 1 / dist_squared
     return weight
