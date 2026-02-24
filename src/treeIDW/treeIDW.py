@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.typing import NDArray
 from scipy.spatial import KDTree
 
 from treeIDW.helper_functions import (
@@ -12,26 +13,26 @@ from treeIDW.helper_functions import (
 
 
 def treeIDW(
-    boundary_nodes: np.ndarray[np.floating],
-    boundary_field: np.ndarray[np.floating],
-    internal_nodes: np.ndarray[np.floating],
+    boundary_nodes: NDArray[np.floating],
+    boundary_field: NDArray[np.floating],
+    internal_nodes: NDArray[np.floating],
     neglectible_treshold: float = 0.2,
     bisect_rtol: float = 1e-3,
     parallel: bool = False,
-) -> np.ndarray[np.floating]:
+) -> NDArray[np.floating]:
     """
     Performs IDW interpolation using a KD-tree to select relevant boundary nodes for each internal node.
     Only boundary nodes with significant weights are included in the interpolation.
 
     Parameters
     ----------
-    boundary_nodes : np.ndarray[np.floating]
+    boundary_nodes : NDArray[np.floating]
         Boundary nodes where the data is known.
         Must be of shape (`n_interp`, `space_dim`).
-    boundary_field : np.ndarray[np.floating]
+    boundary_field : NDArray[np.floating]
         Known data.
         Must be of shape (`n_interp`, `field_dim`).
-    internal_nodes : np.ndarray[np.floating]
+    internal_nodes : NDArray[np.floating]
         Internal nodes where the interpolator is evaluated.
         Must be of shape (`n_eval`, `space_dim`).
     neglectible_treshold : float, optional
@@ -43,7 +44,7 @@ def treeIDW(
 
     Returns
     -------
-    internal_field : np.ndarray[np.floating]
+    internal_field : NDArray[np.floating]
         Interpolated data.
         Should be of shape (`n_eval`, `field_dim`).
     """
@@ -73,7 +74,7 @@ def treeIDW(
     dist_squared_min = (vector_min * vector_min).sum(axis=-1)
     del vector_min
 
-    highest_weight = compute_weight_vectorized_(dist_squared_min)
+    highest_weight = compute_weight_vectorized_(dist_squared_min)  # type: ignore
     del dist_squared_min
 
     lowest_relevant_weights = neglectible_treshold * highest_weight
@@ -81,14 +82,14 @@ def treeIDW(
 
     search_radii_squared = bisect_weight_(
         d_min_vals * d_min_vals, d_max * d_max, lowest_relevant_weights, bisect_rtol
-    )
+    )  # type: ignore
     del d_min_vals, d_max, lowest_relevant_weights
 
     search_radii = np.sqrt(search_radii_squared)
     del search_radii_squared
 
     relevant_nodes_inds = tree.query_ball_point(
-        internal_nodes, search_radii, workers=tree_workers
+        internal_nodes, search_radii, workers=tree_workers, p=2.0
     )
     relevant_nodes_inds_sizes = np.array(list(map(len, relevant_nodes_inds)))
     relevant_nodes_inds_flat = np.hstack(relevant_nodes_inds)

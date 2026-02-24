@@ -5,25 +5,25 @@ Documentation for module treeIDW.treeIDW
 GLOBAL FUNCTIONS:
 ~~~~~~~~~~~~~~~~~~
   >>> treeIDW(
-    boundary_nodes: numpy.ndarray[numpy.floating],
-    boundary_field: numpy.ndarray[numpy.floating],
-    internal_nodes: numpy.ndarray[numpy.floating],
+    boundary_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    boundary_field: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    internal_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
     neglectible_treshold: float = 0.2,
     bisect_rtol: float = 0.001,
     parallel: bool = False
-) -> numpy.ndarray[numpy.floating]
+) -> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]]
       Performs IDW interpolation using a KD-tree to select relevant boundary nodes for each internal node.
       Only boundary nodes with significant weights are included in the interpolation.
       
       Parameters
       ----------
-      boundary_nodes : np.ndarray[np.floating]
+      boundary_nodes : NDArray[np.floating]
           Boundary nodes where the data is known.
           Must be of shape (`n_interp`, `space_dim`).
-      boundary_field : np.ndarray[np.floating]
+      boundary_field : NDArray[np.floating]
           Known data.
           Must be of shape (`n_interp`, `field_dim`).
-      internal_nodes : np.ndarray[np.floating]
+      internal_nodes : NDArray[np.floating]
           Internal nodes where the interpolator is evaluated.
           Must be of shape (`n_eval`, `space_dim`).
       neglectible_treshold : float, optional
@@ -35,6 +35,6 @@ GLOBAL FUNCTIONS:
       
       Returns
       -------
-      internal_field : np.ndarray[np.floating]
+      internal_field : NDArray[np.floating]
           Interpolated data.
           Should be of shape (`n_eval`, `field_dim`).

@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.typing import NDArray
 import numba as nb
 
 from treeIDW.weight_function import compute_weight
@@ -6,12 +7,12 @@ from treeIDW.weight_function import compute_weight
 
 @nb.njit(cache=True)
 def inv_dist_weight(
-    boundary_nodes: np.ndarray[np.floating],
-    boundary_field: np.ndarray[np.floating],
-    internal_nodes: np.ndarray[np.floating],
-    relevant_nodes_inds_flat: np.ndarray[np.integer],
-    relevant_nodes_inds_sizes: np.ndarray[np.integer],
-) -> np.ndarray[np.floating]:
+    boundary_nodes: NDArray[np.floating],
+    boundary_field: NDArray[np.floating],
+    internal_nodes: NDArray[np.floating],
+    relevant_nodes_inds_flat: NDArray[np.integer],
+    relevant_nodes_inds_sizes: NDArray[np.integer],
+) -> NDArray[np.floating]:
     """
     Performs the Inverse Distance Weighting interpolation method using only provided boundary nodes
     indices in the weighted sum. This function is designed to be used after selecting the relevant nodes
@@ -19,24 +20,24 @@ def inv_dist_weight(
 
     Parameters
     ----------
-    boundary_nodes : np.ndarray[np.floating]
+    boundary_nodes : NDArray[np.floating]
         Boundary nodes where the data is known.
         Must be of shape (`n_interp`, `space_dim`).
-    boundary_field : np.ndarray[np.floating]
+    boundary_field : NDArray[np.floating]
         Known data.
         Must be of shape (`n_interp`, `field_dim`).
-    internal_nodes : np.ndarray[np.floating]
+    internal_nodes : NDArray[np.floating]
         Internal nodes where the interpolator is evaluated.
         Must be of shape (`n_eval`, `space_dim`).
-    relevant_nodes_inds_flat : np.ndarray[np.integer]
+    relevant_nodes_inds_flat : NDArray[np.integer]
         Boundary nodes indices that weight in the IDW interpolator for each internal node.
         Must contain `n_eval` concatenated lists of indices between 0 and `n_interp` excluded.
-    relevant_nodes_inds_sizes : np.ndarray[np.integer]
+    relevant_nodes_inds_sizes : NDArray[np.integer]
         Sizes of each of the `n_eval` lists concatenated in `relevant_nodes_inds_flat`.
 
     Returns
     -------
-    internal_field : np.ndarray[np.floating]
+    internal_field : NDArray[np.floating]
         Interpolated data.
         Should be of shape (`n_eval`, `field_dim`).
     """
@@ -66,12 +67,12 @@ def inv_dist_weight(
 
 @nb.njit(parallel=True, cache=True)
 def inv_dist_weight_parallel(
-    boundary_nodes: np.ndarray[np.floating],
-    boundary_field: np.ndarray[np.floating],
-    internal_nodes: np.ndarray[np.floating],
-    relevant_nodes_inds_flat: np.ndarray[np.integer],
-    relevant_nodes_inds_sizes: np.ndarray[np.integer],
-) -> np.ndarray[np.floating]:
+    boundary_nodes: NDArray[np.floating],
+    boundary_field: NDArray[np.floating],
+    internal_nodes: NDArray[np.floating],
+    relevant_nodes_inds_flat: NDArray[np.integer],
+    relevant_nodes_inds_sizes: NDArray[np.integer],
+) -> NDArray[np.floating]:
     """
     Performs the Inverse Distance Weighting interpolation method using only provided boundary nodes
     indices in the weighted sum. This function is designed to be used after selecting the relevant nodes
@@ -79,24 +80,24 @@ def inv_dist_weight_parallel(
 
     Parameters
     ----------
-    boundary_nodes : np.ndarray[np.floating]
+    boundary_nodes : NDArray[np.floating]
         Boundary nodes where the data is known.
         Must be of shape (`n_interp`, `space_dim`).
-    boundary_field : np.ndarray[np.floating]
+    boundary_field : NDArray[np.floating]
         Known data.
         Must be of shape (`n_interp`, `field_dim`).
-    internal_nodes : np.ndarray[np.floating]
+    internal_nodes : NDArray[np.floating]
         Internal nodes where the interpolator is evaluated.
         Must be of shape (`n_eval`, `space_dim`).
-    relevant_nodes_inds_flat : np.ndarray[np.integer]
+    relevant_nodes_inds_flat : NDArray[np.integer]
         Boundary nodes indices that weight in the IDW interpolator for each internal node.
         Must contain `n_eval` concatenated lists of indices between 0 and `n_interp` excluded.
-    relevant_nodes_inds_sizes : np.ndarray[np.integer]
+    relevant_nodes_inds_sizes : NDArray[np.integer]
         Sizes of each of the `n_eval` lists concatenated in `relevant_nodes_inds_flat`.
 
     Returns
     -------
-    internal_field : np.ndarray[np.floating]
+    internal_field : NDArray[np.floating]
         Interpolated data.
         Should be of shape (`n_eval`, `field_dim`).
     """
@@ -154,11 +155,10 @@ def bisect_weight_elem(
             return dist_squared_a * (1 + 1e-5)
         elif weight_b >= 0:
             return dist_squared_b * (1 + 1e-5)
-    nb_iter = int(
-        np.log2((dist_squared_b - dist_squared_a) / (rtol * dist_squared_a)) + 1
+    nb_iter = max(
+        int(np.log2((dist_squared_b - dist_squared_a) / (rtol * dist_squared_a)) + 1), 1
     )
-    if nb_iter <= 0:
-        return 0.5 * (dist_squared_a + dist_squared_b)
+    dist_squared_c = 0
     for _ in range(nb_iter):
         dist_squared_c = 0.5 * (dist_squared_a + dist_squared_b)
         weight_c = weight(dist_squared_c)

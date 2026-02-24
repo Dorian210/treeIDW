@@ -16,20 +16,20 @@ Documentation for module treeIDW.helper_functions
 GLOBAL FUNCTIONS:
 ~~~~~~~~~~~~~~~~~~
   >>> inv_dist_weight(
-    boundary_nodes: numpy.ndarray[numpy.floating],
-    boundary_field: numpy.ndarray[numpy.floating],
-    internal_nodes: numpy.ndarray[numpy.floating],
-    relevant_nodes_inds_flat: numpy.ndarray[numpy.integer],
-    relevant_nodes_inds_sizes: numpy.ndarray[numpy.integer]
-) -> numpy.ndarray[numpy.floating]
+    boundary_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    boundary_field: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    internal_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    relevant_nodes_inds_flat: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]],
+    relevant_nodes_inds_sizes: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]]
+) -> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]]
 
   >>> inv_dist_weight_parallel(
-    boundary_nodes: numpy.ndarray[numpy.floating],
-    boundary_field: numpy.ndarray[numpy.floating],
-    internal_nodes: numpy.ndarray[numpy.floating],
-    relevant_nodes_inds_flat: numpy.ndarray[numpy.integer],
-    relevant_nodes_inds_sizes: numpy.ndarray[numpy.integer]
-) -> numpy.ndarray[numpy.floating]
+    boundary_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    boundary_field: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    internal_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    relevant_nodes_inds_flat: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]],
+    relevant_nodes_inds_sizes: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]]
+) -> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]]
 
   >>> bisect_weight_elem(
     dist_squared_a: float,
@@ -46,13 +46,13 @@ Documentation for module treeIDW.treeIDW
 GLOBAL FUNCTIONS:
 ~~~~~~~~~~~~~~~~~~
   >>> treeIDW(
-    boundary_nodes: numpy.ndarray[numpy.floating],
-    boundary_field: numpy.ndarray[numpy.floating],
-    internal_nodes: numpy.ndarray[numpy.floating],
+    boundary_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    boundary_field: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    internal_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
     neglectible_treshold: float = 0.2,
     bisect_rtol: float = 0.001,
     parallel: bool = False
-) -> numpy.ndarray[numpy.floating]
+) -> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]]
 
 ################################################################
 MODULE: treeIDW.weight_function

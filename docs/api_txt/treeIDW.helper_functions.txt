@@ -5,70 +5,70 @@ Documentation for module treeIDW.helper_functions
 GLOBAL FUNCTIONS:
 ~~~~~~~~~~~~~~~~~~
   >>> inv_dist_weight(
-    boundary_nodes: numpy.ndarray[numpy.floating],
-    boundary_field: numpy.ndarray[numpy.floating],
-    internal_nodes: numpy.ndarray[numpy.floating],
-    relevant_nodes_inds_flat: numpy.ndarray[numpy.integer],
-    relevant_nodes_inds_sizes: numpy.ndarray[numpy.integer]
-) -> numpy.ndarray[numpy.floating]
+    boundary_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    boundary_field: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    internal_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    relevant_nodes_inds_flat: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]],
+    relevant_nodes_inds_sizes: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]]
+) -> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]]
       Performs the Inverse Distance Weighting interpolation method using only provided boundary nodes
       indices in the weighted sum. This function is designed to be used after selecting the relevant nodes
       through a KD-tree method.
       
       Parameters
       ----------
-      boundary_nodes : np.ndarray[np.floating]
+      boundary_nodes : NDArray[np.floating]
           Boundary nodes where the data is known.
           Must be of shape (`n_interp`, `space_dim`).
-      boundary_field : np.ndarray[np.floating]
+      boundary_field : NDArray[np.floating]
           Known data.
           Must be of shape (`n_interp`, `field_dim`).
-      internal_nodes : np.ndarray[np.floating]
+      internal_nodes : NDArray[np.floating]
           Internal nodes where the interpolator is evaluated.
           Must be of shape (`n_eval`, `space_dim`).
-      relevant_nodes_inds_flat : np.ndarray[np.integer]
+      relevant_nodes_inds_flat : NDArray[np.integer]
           Boundary nodes indices that weight in the IDW interpolator for each internal node.
           Must contain `n_eval` concatenated lists of indices between 0 and `n_interp` excluded.
-      relevant_nodes_inds_sizes : np.ndarray[np.integer]
+      relevant_nodes_inds_sizes : NDArray[np.integer]
           Sizes of each of the `n_eval` lists concatenated in `relevant_nodes_inds_flat`.
       
       Returns
       -------
-      internal_field : np.ndarray[np.floating]
+      internal_field : NDArray[np.floating]
           Interpolated data.
           Should be of shape (`n_eval`, `field_dim`).
 
   >>> inv_dist_weight_parallel(
-    boundary_nodes: numpy.ndarray[numpy.floating],
-    boundary_field: numpy.ndarray[numpy.floating],
-    internal_nodes: numpy.ndarray[numpy.floating],
-    relevant_nodes_inds_flat: numpy.ndarray[numpy.integer],
-    relevant_nodes_inds_sizes: numpy.ndarray[numpy.integer]
-) -> numpy.ndarray[numpy.floating]
+    boundary_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    boundary_field: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    internal_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
+    relevant_nodes_inds_flat: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]],
+    relevant_nodes_inds_sizes: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]]
+) -> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]]
       Performs the Inverse Distance Weighting interpolation method using only provided boundary nodes
       indices in the weighted sum. This function is designed to be used after selecting the relevant nodes
       through a KD-tree method.
       
       Parameters
       ----------
-      boundary_nodes : np.ndarray[np.floating]
+      boundary_nodes : NDArray[np.floating]
           Boundary nodes where the data is known.
           Must be of shape (`n_interp`, `space_dim`).
-      boundary_field : np.ndarray[np.floating]
+      boundary_field : NDArray[np.floating]
           Known data.
           Must be of shape (`n_interp`, `field_dim`).
-      internal_nodes : np.ndarray[np.floating]
+      internal_nodes : NDArray[np.floating]
           Internal nodes where the interpolator is evaluated.
           Must be of shape (`n_eval`, `space_dim`).
-      relevant_nodes_inds_flat : np.ndarray[np.integer]
+      relevant_nodes_inds_flat : NDArray[np.integer]
           Boundary nodes indices that weight in the IDW interpolator for each internal node.
           Must contain `n_eval` concatenated lists of indices between 0 and `n_interp` excluded.
-      relevant_nodes_inds_sizes : np.ndarray[np.integer]
+      relevant_nodes_inds_sizes : NDArray[np.integer]
           Sizes of each of the `n_eval` lists concatenated in `relevant_nodes_inds_flat`.
       
       Returns
       -------
-      internal_field : np.ndarray[np.floating]
+      internal_field : NDArray[np.floating]
           Interpolated data.
           Should be of shape (`n_eval`, `field_dim`).
 
