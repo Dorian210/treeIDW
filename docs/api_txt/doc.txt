@@ -20,7 +20,7 @@ GLOBAL FUNCTIONS:
     boundary_field: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
     internal_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
     relevant_nodes_inds_flat: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]],
-    relevant_nodes_inds_sizes: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]]
+    relevant_nodes_inds_offsets: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]]
 ) -> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]]
 
   >>> inv_dist_weight_parallel(
@@ -28,7 +28,7 @@ GLOBAL FUNCTIONS:
     boundary_field: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
     internal_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
     relevant_nodes_inds_flat: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]],
-    relevant_nodes_inds_sizes: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]]
+    relevant_nodes_inds_offsets: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]]
 ) -> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]]
 
   >>> bisect_weight_elem(

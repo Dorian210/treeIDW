@@ -91,7 +91,7 @@ def treeIDW(
     relevant_nodes_inds = tree.query_ball_point(
         internal_nodes, search_radii, workers=tree_workers, p=2.0
     )
-    relevant_nodes_inds_sizes = np.array(list(map(len, relevant_nodes_inds)))
+    relevant_nodes_inds_offsets = np.cumsum(np.array([0] + list(map(len, relevant_nodes_inds))))
     relevant_nodes_inds_flat = np.hstack(relevant_nodes_inds)
     del relevant_nodes_inds
 
@@ -100,7 +100,7 @@ def treeIDW(
         boundary_field,
         internal_nodes,
         relevant_nodes_inds_flat,
-        relevant_nodes_inds_sizes,
+        relevant_nodes_inds_offsets,
     )
 
     return internal_field

@@ -1,9 +1,34 @@
 import numpy as np
 from numpy.typing import NDArray
 import numba as nb
+from numba import config
+import re
 
 from treeIDW.weight_function import compute_weight
 
+
+if config.DISABLE_JIT:
+    def guvectorize(signatures, layout, **kwargs):
+        def wrapper(f):
+            output_type = None
+            if len(signatures) != 0:
+                match = re.search(r'[,(]\s*([a-z0-9]+)(?:\[[:,\s]*\])?\s*\)$', signatures[0])
+                if match:
+                    output_type = match.group(1)
+            def vectorized_func(*args):
+                out = np.empty(args[0].shape, dtype=object)
+                for i in range(out.size):
+                    out.flat[i] = np.empty(1, dtype=(output_type if output_type else object))
+                vf = np.vectorize(f)
+                vf(*args, out)
+                out = [o.item() for o in out]
+                if output_type:
+                    out = np.array(out, dtype=output_type)
+                else:
+                    out = np.array(out)
+                return out
+            return vectorized_func
+        return wrapper
 
 @nb.njit(cache=True)
 def inv_dist_weight(
@@ -11,7 +36,7 @@ def inv_dist_weight(
     boundary_field: NDArray[np.floating],
     internal_nodes: NDArray[np.floating],
     relevant_nodes_inds_flat: NDArray[np.integer],
-    relevant_nodes_inds_sizes: NDArray[np.integer],
+    relevant_nodes_inds_offsets: NDArray[np.integer],
 ) -> NDArray[np.floating]:
     """
     Performs the Inverse Distance Weighting interpolation method using only provided boundary nodes
@@ -32,8 +57,8 @@ def inv_dist_weight(
     relevant_nodes_inds_flat : NDArray[np.integer]
         Boundary nodes indices that weight in the IDW interpolator for each internal node.
         Must contain `n_eval` concatenated lists of indices between 0 and `n_interp` excluded.
-    relevant_nodes_inds_sizes : NDArray[np.integer]
-        Sizes of each of the `n_eval` lists concatenated in `relevant_nodes_inds_flat`.
+    relevant_nodes_inds_offsets : NDArray[np.integer]
+        Offsets of each of the `n_eval` lists concatenated in `relevant_nodes_inds_flat`.
 
     Returns
     -------
@@ -44,10 +69,9 @@ def inv_dist_weight(
     field_dim = boundary_field.shape[1]
     n_eval = internal_nodes.shape[0]
     internal_field = np.zeros((n_eval, field_dim), dtype="float")
-    offsets_right = np.cumsum(relevant_nodes_inds_sizes)
-    offset_left = 0
     for i in range(n_eval):
-        offset_right = offsets_right[i]
+        offset_left = relevant_nodes_inds_offsets[i]
+        offset_right = relevant_nodes_inds_offsets[i + 1]
         inds = relevant_nodes_inds_flat[offset_left:offset_right]
         internal_node = internal_nodes[i]
         weights = []
@@ -61,7 +85,6 @@ def inv_dist_weight(
         for weight, ind in zip(weights, inds):
             boundary_field_value = boundary_field[ind]
             internal_field[i] += (weight / total_weight) * boundary_field_value
-        offset_left = offset_right
     return internal_field
 
 
@@ -71,7 +94,7 @@ def inv_dist_weight_parallel(
     boundary_field: NDArray[np.floating],
     internal_nodes: NDArray[np.floating],
     relevant_nodes_inds_flat: NDArray[np.integer],
-    relevant_nodes_inds_sizes: NDArray[np.integer],
+    relevant_nodes_inds_offsets: NDArray[np.integer],
 ) -> NDArray[np.floating]:
     """
     Performs the Inverse Distance Weighting interpolation method using only provided boundary nodes
@@ -92,8 +115,8 @@ def inv_dist_weight_parallel(
     relevant_nodes_inds_flat : NDArray[np.integer]
         Boundary nodes indices that weight in the IDW interpolator for each internal node.
         Must contain `n_eval` concatenated lists of indices between 0 and `n_interp` excluded.
-    relevant_nodes_inds_sizes : NDArray[np.integer]
-        Sizes of each of the `n_eval` lists concatenated in `relevant_nodes_inds_flat`.
+    relevant_nodes_inds_offsets : NDArray[np.integer]
+        Offsets of each of the `n_eval` lists concatenated in `relevant_nodes_inds_flat`.
 
     Returns
     -------
@@ -104,10 +127,9 @@ def inv_dist_weight_parallel(
     field_dim = boundary_field.shape[1]
     n_eval = internal_nodes.shape[0]
     internal_field = np.zeros((n_eval, field_dim), dtype="float")
-    offsets_right = np.cumsum(relevant_nodes_inds_sizes)
-    offset_left = 0
     for i in nb.prange(n_eval):
-        offset_right = offsets_right[i]
+        offset_left = relevant_nodes_inds_offsets[i]
+        offset_right = relevant_nodes_inds_offsets[i + 1]
         inds = relevant_nodes_inds_flat[offset_left:offset_right]
         internal_node = internal_nodes[i]
         weights = []
@@ -121,7 +143,6 @@ def inv_dist_weight_parallel(
         for weight, ind in zip(weights, inds):
             boundary_field_value = boundary_field[ind]
             internal_field[i] += (weight / total_weight) * boundary_field_value
-        offset_left = offset_right
     return internal_field
 
 

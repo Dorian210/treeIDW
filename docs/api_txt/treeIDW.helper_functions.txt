@@ -9,7 +9,7 @@ GLOBAL FUNCTIONS:
     boundary_field: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
     internal_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
     relevant_nodes_inds_flat: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]],
-    relevant_nodes_inds_sizes: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]]
+    relevant_nodes_inds_offsets: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]]
 ) -> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]]
       Performs the Inverse Distance Weighting interpolation method using only provided boundary nodes
       indices in the weighted sum. This function is designed to be used after selecting the relevant nodes
@@ -29,8 +29,8 @@ GLOBAL FUNCTIONS:
       relevant_nodes_inds_flat : NDArray[np.integer]
           Boundary nodes indices that weight in the IDW interpolator for each internal node.
           Must contain `n_eval` concatenated lists of indices between 0 and `n_interp` excluded.
-      relevant_nodes_inds_sizes : NDArray[np.integer]
-          Sizes of each of the `n_eval` lists concatenated in `relevant_nodes_inds_flat`.
+      relevant_nodes_inds_offsets : NDArray[np.integer]
+          Offsets of each of the `n_eval` lists concatenated in `relevant_nodes_inds_flat`.
       
       Returns
       -------
@@ -43,7 +43,7 @@ GLOBAL FUNCTIONS:
     boundary_field: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
     internal_nodes: numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]],
     relevant_nodes_inds_flat: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]],
-    relevant_nodes_inds_sizes: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]]
+    relevant_nodes_inds_offsets: numpy.ndarray[typing.Any, numpy.dtype[numpy.integer]]
 ) -> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]]
       Performs the Inverse Distance Weighting interpolation method using only provided boundary nodes
       indices in the weighted sum. This function is designed to be used after selecting the relevant nodes
@@ -63,8 +63,8 @@ GLOBAL FUNCTIONS:
       relevant_nodes_inds_flat : NDArray[np.integer]
           Boundary nodes indices that weight in the IDW interpolator for each internal node.
           Must contain `n_eval` concatenated lists of indices between 0 and `n_interp` excluded.
-      relevant_nodes_inds_sizes : NDArray[np.integer]
-          Sizes of each of the `n_eval` lists concatenated in `relevant_nodes_inds_flat`.
+      relevant_nodes_inds_offsets : NDArray[np.integer]
+          Offsets of each of the `n_eval` lists concatenated in `relevant_nodes_inds_flat`.
       
       Returns
       -------
